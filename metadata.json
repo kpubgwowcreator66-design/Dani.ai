@@ -1,0 +1,7 @@
+{
+  "name": "Dani.ai",
+  "description": "Professional AI photo enhancement and manipulation suite.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

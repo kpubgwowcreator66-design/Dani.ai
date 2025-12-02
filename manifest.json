@@ -1,0 +1,21 @@
+{
+  "short_name": "Dani.ai",
+  "name": "Dani.ai Professional Studio",
+  "icons": [
+    {
+      "src": "https://ui-avatars.com/api/?name=Dani+AI&background=000000&color=fff&size=192&font-size=0.5&rounded=true&bold=true",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://ui-avatars.com/api/?name=Dani+AI&background=000000&color=fff&size=512&font-size=0.5&rounded=true&bold=true",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "orientation": "portrait"
+}
