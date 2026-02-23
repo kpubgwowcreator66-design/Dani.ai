@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   UploadIcon, 
   MagicWandIcon, 
-  ClockIcon, 
   UserIcon, 
   DownloadIcon, 
   TrashIcon, 
@@ -17,7 +16,8 @@ import {
   LogoIcon,
   EraserIcon,
   BriefcaseIcon,
-  PencilIcon
+  PencilIcon,
+  ClockIcon
 } from './components/Icons';
 import { generateEditedImage } from './services/geminiService';
 import { EditMode, AgeDirection, ImageFile } from './types';
@@ -119,7 +119,6 @@ const App: React.FC = () => {
   const startCamera = async () => {
     try {
       setError(null);
-      // Prefer back camera on mobile, works on desktop webcam too
       const mediaStream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: 'environment' } 
       });
@@ -174,7 +173,6 @@ const App: React.FC = () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Smooth scroll on mobile, minimal effect on desktop
       const resultArea = document.getElementById('result-area');
       if (resultArea) resultArea.scrollIntoView({ behavior: 'smooth' });
       
@@ -191,7 +189,7 @@ const App: React.FC = () => {
     if (resultImage) {
       const link = document.createElement('a');
       link.href = resultImage;
-      link.download = `dani-ai-${mode.toLowerCase()}-${Date.now()}.png`;
+      link.download = `photito-${mode.toLowerCase()}-${Date.now()}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -229,58 +227,58 @@ const App: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 flex items-center justify-between shadow-sm">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-black text-white rounded-xl flex items-center justify-center shadow-md transform hover:rotate-3 transition-transform duration-300">
-              <LogoIcon className="w-6 h-6" />
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-4 py-3 flex items-center justify-between shadow-sm">
+          <div className="flex items-center space-x-2">
+            <div className="w-9 h-9 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
+              <LogoIcon className="w-5 h-5" />
             </div>
             <h1 className="text-xl font-bold tracking-tight text-black">
-              Dani.ai
+              Photito
             </h1>
           </div>
           {showInstallBtn && (
             <button 
               onClick={handleInstallClick}
-              className="px-4 py-2 bg-black text-white text-xs font-bold rounded-full shadow-lg hover:bg-gray-800 transition-colors"
+              className="px-4 py-1.5 bg-black text-white text-xs font-bold rounded-full shadow hover:bg-gray-800 transition-colors"
             >
-              Install App
+              Install
             </button>
           )}
         </header>
 
-        <main className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-4 md:p-8">
+        <main className="grid grid-cols-1 lg:grid-cols-12 gap-6 p-4">
           
           {/* Left Column: Upload */}
           <div className="lg:col-span-5 space-y-4">
             <div 
-              className={`relative border-2 border-dashed rounded-3xl transition-all duration-300 h-[400px] md:h-[600px] flex flex-col items-center justify-center overflow-hidden bg-gray-50 group
+              className={`relative border-2 border-dashed rounded-2xl transition-all duration-300 h-[350px] md:h-[500px] flex flex-col items-center justify-center overflow-hidden bg-gray-50 group
                 ${!file ? 'border-gray-300 hover:border-gray-400' : 'border-gray-200 bg-white shadow-sm'}`}
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleDrop}
             >
               {!file ? (
-                <div className="text-center p-8 space-y-6 w-full max-w-sm">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-2 border border-gray-100 shadow-sm group-hover:scale-110 transition-transform duration-300">
-                    <UploadIcon className="w-8 h-8 text-gray-400" />
+                <div className="text-center p-6 space-y-6 w-full max-w-sm">
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-2 border border-gray-100 shadow-sm">
+                    <UploadIcon className="w-6 h-6 text-gray-400" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-xl font-bold text-black">Upload Photo</h3>
-                    <p className="text-gray-500 text-sm">Drag & drop or click below</p>
+                    <h3 className="text-lg font-bold text-black">Upload Photo</h3>
+                    <p className="text-gray-500 text-xs">Tap below or use camera</p>
                   </div>
                   
-                  <div className="flex flex-col gap-3 pt-4 w-full">
+                  <div className="flex flex-col gap-3 pt-2 w-full">
                     <button 
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-full py-3.5 bg-black text-white rounded-xl font-semibold shadow-lg hover:bg-gray-800 hover:shadow-xl transition-all active:scale-[0.98] text-sm"
+                      className="w-full py-3 bg-black text-white rounded-xl font-semibold shadow-md active:scale-95 transition-all text-sm"
                     >
-                      Choose from Device
+                      Gallery
                     </button>
                     <button 
                       onClick={startCamera}
-                      className="w-full py-3.5 bg-white text-black border border-gray-200 rounded-xl font-semibold shadow-sm hover:bg-gray-50 transition-colors text-sm flex items-center justify-center gap-2"
+                      className="w-full py-3 bg-white text-black border border-gray-200 rounded-xl font-semibold shadow-sm active:bg-gray-50 transition-all text-sm flex items-center justify-center gap-2"
                     >
                       <CameraIcon className="w-4 h-4" />
-                      Open Camera
+                      Camera
                     </button>
                   </div>
                 </div>
@@ -289,17 +287,14 @@ const App: React.FC = () => {
                   <img 
                     src={file.previewUrl} 
                     alt="Original" 
-                    className="max-w-full max-h-full object-contain p-4"
+                    className="max-w-full max-h-full object-contain p-2"
                   />
                   <button 
                     onClick={reset}
-                    className="absolute top-4 right-4 p-2.5 bg-white text-red-500 rounded-full shadow-lg hover:bg-red-50 transition-colors"
+                    className="absolute top-3 right-3 p-2 bg-white text-red-500 rounded-full shadow-md hover:bg-red-50 transition-colors"
                   >
-                    <TrashIcon className="w-5 h-5" />
+                    <TrashIcon className="w-4 h-4" />
                   </button>
-                  <div className="absolute bottom-4 left-4 bg-black/75 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md">
-                    ORIGINAL
-                  </div>
                 </div>
               )}
               <input 
@@ -313,16 +308,16 @@ const App: React.FC = () => {
           </div>
 
           {/* Right Column: Tools */}
-          <div className="lg:col-span-7 space-y-6 flex flex-col">
+          <div className="lg:col-span-7 space-y-4 flex flex-col">
             
-            <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm space-y-8">
+            <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm space-y-6">
               
               {/* Tool Grid */}
               <div>
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 block px-1">
-                  AI Tools
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 block px-1">
+                  Enhancement Tools
                 </label>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
                   {tools.map((tool) => (
                     <button
                       key={tool.id}
@@ -330,26 +325,26 @@ const App: React.FC = () => {
                         setMode(tool.id);
                         setCustomPrompt("");
                       }}
-                      className={`flex flex-col items-center justify-center p-3 rounded-2xl transition-all border text-center space-y-2 h-24
+                      className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all border text-center space-y-1 h-20
                         ${mode === tool.id 
-                          ? 'bg-black text-white border-black shadow-lg scale-105' 
-                          : 'bg-white border-gray-100 text-gray-500 hover:bg-gray-50 hover:border-gray-200'}`}
+                          ? 'bg-black text-white border-black shadow-md' 
+                          : 'bg-white border-gray-100 text-gray-500 active:bg-gray-50'}`}
                     >
-                      <tool.icon className={`w-6 h-6 ${mode === tool.id ? 'text-white' : 'text-gray-400'}`} />
-                      <span className="font-semibold text-xs">{tool.label}</span>
+                      <tool.icon className={`w-5 h-5 ${mode === tool.id ? 'text-white' : 'text-gray-400'}`} />
+                      <span className="font-medium text-[10px] leading-tight">{tool.label}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Dynamic Options Area */}
-              <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 min-h-[100px] flex flex-col justify-center">
+              <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 min-h-[90px] flex flex-col justify-center">
                 {mode === EditMode.AGE_CHANGE ? (
                   <div className="animate-fade-in w-full">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 block">
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">
                       Target Age
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
                       {[
                         { l: 'Child', v: AgeDirection.CHILD },
                         { l: 'Younger', v: AgeDirection.YOUNGER },
@@ -359,10 +354,10 @@ const App: React.FC = () => {
                         <button
                           key={opt.v}
                           onClick={() => setAgeDirection(opt.v)}
-                          className={`py-2 px-5 rounded-xl text-sm font-bold transition-all border
+                          className={`py-1.5 px-4 rounded-lg text-xs font-bold transition-all border whitespace-nowrap
                             ${ageDirection === opt.v
-                              ? 'bg-black border-black text-white shadow-md'
-                              : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'}`}
+                              ? 'bg-black border-black text-white shadow-sm'
+                              : 'bg-white border-gray-200 text-gray-500'}`}
                         >
                           {opt.l}
                         </button>
@@ -371,24 +366,24 @@ const App: React.FC = () => {
                   </div>
                 ) : needsPrompt.includes(mode) ? (
                   <div className="animate-fade-in w-full">
-                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 block">
-                      Custom Instructions
+                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">
+                      Instructions
                     </label>
                     <textarea
                       value={customPrompt}
                       onChange={(e) => setCustomPrompt(e.target.value)}
                       placeholder={
-                        mode === EditMode.CLOTH_CHANGE ? "E.g. Blue business suit, red evening dress..." :
-                        mode === EditMode.BG_CHANGE ? "E.g. Sunset beach, futuristic city, cozy office..." :
-                        "Describe what to remove..."
+                        mode === EditMode.CLOTH_CHANGE ? "Blue suit, red dress..." :
+                        mode === EditMode.BG_CHANGE ? "Beach, Office..." :
+                        "What to remove..."
                       }
-                      className="w-full bg-white border border-gray-200 rounded-xl p-4 text-sm text-black focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-400 resize-none h-24 shadow-sm"
+                      className="w-full bg-white border border-gray-200 rounded-lg p-3 text-sm text-black focus:outline-none focus:ring-1 focus:ring-black placeholder-gray-400 resize-none h-20"
                     />
                   </div>
                 ) : (
-                   <div className="flex flex-col items-center justify-center space-y-2 text-gray-400 py-2">
-                     <SparklesIcon className="w-5 h-5" />
-                     <span className="text-sm font-medium">Ready to apply {mode.toLowerCase().replace('_', ' ')} filter</span>
+                   <div className="flex items-center space-x-2 text-gray-400">
+                     <SparklesIcon className="w-4 h-4" />
+                     <span className="text-xs font-medium">Ready to {mode.toLowerCase().replace('_', ' ')}</span>
                    </div>
                 )}
               </div>
@@ -397,25 +392,25 @@ const App: React.FC = () => {
               <button
                 onClick={handleGenerate}
                 disabled={!file || isLoading}
-                className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center space-x-3 transition-all transform
+                className={`w-full py-3.5 rounded-xl font-bold text-base flex items-center justify-center space-x-2 transition-all transform
                   ${!file || isLoading 
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' 
-                    : 'bg-black text-white shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0'}`}
+                    : 'bg-black text-white shadow-lg active:scale-[0.98]'}`}
               >
                 {isLoading ? (
                   <>
                     <LoadingSpinner className="w-5 h-5" />
-                    <span className="text-base">Processing Image...</span>
+                    <span>Processing...</span>
                   </>
                 ) : (
                   <>
                     <MagicWandIcon className="w-5 h-5" />
-                    <span className="text-base">Generate Result</span>
+                    <span>Generate</span>
                   </>
                 )}
               </button>
               {error && (
-                <div className="p-4 bg-red-50 border border-red-100 rounded-xl text-red-600 text-sm text-center font-medium">
+                <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-xs text-center font-medium">
                   {error}
                 </div>
               )}
@@ -423,22 +418,22 @@ const App: React.FC = () => {
 
             {/* Result Display */}
             {resultImage && (
-              <div id="result-area" className="flex-1 bg-white rounded-3xl border border-gray-200 overflow-hidden flex flex-col shadow-xl animate-fade-in min-h-[400px]">
-                <div className="p-4 px-6 border-b border-gray-50 flex justify-between items-center bg-white sticky top-0 z-10">
-                  <h3 className="font-bold text-sm text-black">Generated Result</h3>
+              <div id="result-area" className="flex-1 bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col shadow-lg animate-fade-in min-h-[400px]">
+                <div className="p-3 px-4 border-b border-gray-50 flex justify-between items-center bg-white sticky top-0 z-10">
+                  <h3 className="font-bold text-xs text-black">RESULT</h3>
                   <button 
                     onClick={handleDownload}
-                    className="flex items-center space-x-2 text-xs bg-black text-white font-bold px-5 py-2.5 rounded-full transition-all hover:bg-gray-800"
+                    className="flex items-center space-x-1 text-[10px] bg-black text-white font-bold px-3 py-1.5 rounded-full transition-all active:scale-95"
                   >
-                    <DownloadIcon className="w-3.5 h-3.5" />
-                    <span>Download HD</span>
+                    <DownloadIcon className="w-3 h-3" />
+                    <span>SAVE</span>
                   </button>
                 </div>
-                <div className="flex-1 relative bg-gray-50 flex items-center justify-center p-6">
+                <div className="flex-1 relative bg-gray-50 flex items-center justify-center p-4">
                   <img 
                     src={resultImage} 
                     alt="Processed" 
-                    className="max-w-full h-auto max-h-[600px] object-contain rounded-lg shadow-sm"
+                    className="max-w-full h-auto max-h-[500px] object-contain rounded shadow-sm"
                   />
                 </div>
               </div>
@@ -460,21 +455,21 @@ const App: React.FC = () => {
              />
              
              {/* Camera Controls Overlay */}
-             <div className="absolute top-0 left-0 right-0 p-8 flex justify-end bg-gradient-to-b from-black/50 to-transparent">
+             <div className="absolute top-0 left-0 right-0 p-6 flex justify-end bg-gradient-to-b from-black/50 to-transparent">
                <button 
                  onClick={stopCamera}
-                 className="p-3 bg-white/20 text-white rounded-full backdrop-blur-md hover:bg-white/30 transition-colors"
+                 className="p-2 bg-white/20 text-white rounded-full backdrop-blur-md"
                >
-                 <XIcon className="w-8 h-8" />
+                 <XIcon className="w-6 h-6" />
                </button>
              </div>
              
-             <div className="absolute bottom-0 left-0 right-0 p-10 pb-16 flex justify-center items-center bg-gradient-to-t from-black/80 to-transparent">
+             <div className="absolute bottom-0 left-0 right-0 p-8 pb-12 flex justify-center items-center bg-gradient-to-t from-black/80 to-transparent">
                 <button 
                  onClick={captureImage}
-                 className="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center active:scale-95 transition-transform hover:bg-white/10"
+                 className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center active:scale-95 transition-transform"
                >
-                 <div className="w-20 h-20 rounded-full bg-white shadow-lg"></div>
+                 <div className="w-16 h-16 rounded-full bg-white shadow-lg"></div>
                </button>
              </div>
            </div>
@@ -488,6 +483,13 @@ const App: React.FC = () => {
         }
         .animate-fade-in {
           animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
       `}</style>
     </div>

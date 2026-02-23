@@ -1,6 +1,6 @@
 {
-  "name": "Dani.ai",
-  "description": "Professional AI photo enhancement and manipulation suite.",
+  "name": "Danial.ai",
+  "description": "AI photo enhancement, restoration and age transformation app.",
   "requestFramePermissions": [
     "camera"
   ]

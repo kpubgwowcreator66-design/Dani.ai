@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'dani-ai-web-v3';
+const CACHE_NAME = 'photito-v1';
 const urlsToCache = [
   './',
   './index.html',
